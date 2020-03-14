@@ -1,0 +1,33 @@
+http://localhost:8080/provinces/all
+
+http://localhost:8080/cities/all
+http://localhost:8080/cities/cityById?cityId=1
+http://localhost:8080/cities/citiesByProvince?province=Nova Scotia
+
+http://localhost:8080/touristLocations/all
+http://localhost:8080/touristLocations/locationById?locationId=3
+http://localhost:8080/touristLocations/locationsByProvince?province=Nova Scotia
+http://localhost:8080/touristLocations/locationsByCityId?cityId=1
+
+http://localhost:8080/routes/all
+http://localhost:8080/routes/routeById?routeId=1
+http://localhost:8080/routes/routeBySourceDestination?sourceId=1&destinationId=2
+
+http://localhost:8080/journey/all
+http://localhost:8080/journey/journeyById?journeyId=4
+http://localhost:8080/journey/journeyByRouteId?routeId=1
+http://localhost:8080/journey/journeyByCompanyId?companyId=1
+
+http://localhost:8080/booking/all
+http://localhost:8080/booking/bookingById?bookingId=1
+http://localhost:8080/booking/bookingByUserId?userId=1
+
+//Confirmation request for a valid booking with sufficient seats
+http://localhost:8080/booking/getBookingConfirmation?userId=1&journeyId=4&transactionMode=Credit%20Card&amount=250&totalSeats=2
+//Confirmation request for an invalid booking with insufficient seats
+http://localhost:8080/booking/getBookingConfirmation?userId=1&journeyId=5&transactionMode=Credit%20Card&amount=250&totalSeats=1
+
+//Booking request with sufficient seats
+http://localhost:8080/booking/addBooking?userId=1&journeyId=4&transactionMode=Credit Card&amount=250&totalSeats=2
+//Booking request with insufficient seats
+http://localhost:8080/booking/addBooking?userId=1&journeyId=5&transactionMode=Credit%20Card&amount=250&totalSeats=1
