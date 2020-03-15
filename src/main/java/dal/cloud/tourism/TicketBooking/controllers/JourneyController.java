@@ -45,4 +45,25 @@ public class JourneyController {
 		list = journeyRepository.getJourneyByCompanyId(companyId);
 		return list;
 	}
+	
+	@RequestMapping("/journeyBySourceDestination")
+	public List<Object> getJourneyBySourceDestination(@RequestParam("sourceId") int sourceId, @RequestParam("destinationId") int destinationId){
+		List<Object> list = new ArrayList<Object>();
+		list = journeyRepository.getJourneyBySourceDestination(sourceId, destinationId);
+		return list;
+	}
+	
+	@RequestMapping("/journeyBySourceDestinationDate")
+	public List<Object> getJourneyBySDDate(@RequestParam("sourceId") int sourceId, @RequestParam("destinationId") int destinationId, @RequestParam("date") String date){
+		List<Object> list = new ArrayList<Object>();
+		list = journeyRepository.getJourneyBySourceDestinationDate(sourceId, destinationId, date);
+		return list;
+	}
+	
+	@RequestMapping("/journeyBySourceDestinationDateType")
+	public List<Object> getJourneyBySDDType(@RequestParam("sourceId") int sourceId, @RequestParam("destinationId") int destinationId,  @RequestParam("date") String date,  @RequestParam("type") String type){
+		List<Object> list = new ArrayList<Object>();
+		list = journeyRepository.getJourneyBySourceDestinationDateType(sourceId, destinationId, date, type);
+		return list;
+	}
 }
