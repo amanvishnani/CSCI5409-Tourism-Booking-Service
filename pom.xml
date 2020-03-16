@@ -9,11 +9,11 @@
 		<version>2.2.5.RELEASE</version>
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.example</groupId>
-	<artifactId>demo_service</artifactId>
+	<groupId>dal.cloud</groupId>
+	<artifactId>booking_service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>demo_service</name>
-	<description>Demo project for Spring Boot</description>
+	<name>booking_service</name>
+	<description>Booking Service for Cloud Project</description>
 
 	<properties>
 		<java.version>1.8</java.version>
