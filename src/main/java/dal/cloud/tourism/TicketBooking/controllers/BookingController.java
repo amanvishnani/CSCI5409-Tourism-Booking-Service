@@ -36,9 +36,16 @@ public class BookingController {
 	}
 
 	@RequestMapping("/bookingByUserId")
-	public List<Booking> getBookingByRouteId(@RequestParam("userId") int userId) {
+	public List<Booking> getBookingByUserId(@RequestParam("userId") int userId) {
 		List<Booking> list = new ArrayList<Booking>();
 		list = bookingRepository.getBookingsByUserId(userId);
+		return list;
+	}
+	
+	@RequestMapping("/bookingInfoByUserId")
+	public List<Object> getBookingInfoByUserId(@RequestParam("userId") int userId) {
+		List<Object> list = new ArrayList<Object>();
+		list = bookingRepository.getBookingInfoByUserId(userId);
 		return list;
 	}
 

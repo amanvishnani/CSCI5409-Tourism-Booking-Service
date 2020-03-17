@@ -18,7 +18,7 @@ import dal.cloud.tourism.TicketBooking.model.Booking;
 public interface BookingRepository extends JpaRepository<Booking, Integer> {
 	
 	@Query(value = "SELECT * FROM booking b "
-			+ "where b.booking_id = :bookingId ", 
+			+ "where b.booking_Id = :bookingId ", 
 			nativeQuery = true) 
 	public Booking getBookingById(int bookingId);
 
@@ -26,6 +26,21 @@ public interface BookingRepository extends JpaRepository<Booking, Integer> {
 			+ "where b.user_id = :userId",
 			nativeQuery = true)
 	public List<Booking> getBookingsByUserId(int userId);
+	
+	@Query(value = "SELECT b.booking_Id, b.transaction_mode, b.amount, b. timestamp, b.total_seats, "
+			+ "j.date, j.duration, "
+			+ "bu.type, "
+			+ "c.name, c.contact "
+			+ " FROM booking b "
+			+ "JOIN journey j on b.journey_Id = j.journey_Id "
+			+ "JOIN bus bu on j.bus_no = bu.bus_no "
+			+ "JOIN company c on j.company_id = c.company_id "
+			+ "JOIN route r on j.route_id = r.route_id "
+			+ "JOIN city ci on r.source_id = ci.city_Id " 
+			+"  JOIN city ci2 on r.destination_id = ci2.city_Id "
+			+ "where b.user_id = :userId",
+			nativeQuery = true)
+	public List<Object> getBookingInfoByUserId(int userId);
 
 	@Query(value = "SELECT seats_available from booking_audit "
 			+ "where journey_id = :journeyId", 
