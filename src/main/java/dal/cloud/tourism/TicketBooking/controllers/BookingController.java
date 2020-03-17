@@ -6,13 +6,13 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import dal.cloud.tourism.TicketBooking.model.Booking;
-import dal.cloud.tourism.TicketBooking.repository.BookingRepository;
 import dal.cloud.tourism.TicketBooking.repository.BookingRepository;
 
 @RestController
@@ -66,10 +66,10 @@ public class BookingController {
 		}			
 		return booking;
 	}
-	
+		
 	@RequestMapping("/addBooking")
 	public String addBookingInformation(@RequestParam("userId") int userId, @RequestParam("journeyId") int journeyId,
-			@RequestParam("transactionMode") String transactionMode, @RequestParam("amount") int amount,
+			@RequestParam("transactionMode") String transactionMode, @RequestParam("amount") double amount,
 			@RequestParam("totalSeats") int totalSeats) {
 
 		int seatsLeft = bookingRepository.getBookingAuditInfo(journeyId);
@@ -89,7 +89,8 @@ public class BookingController {
 			booking.setTimestamp(timestamp + "");
 			booking.setTotalSeats(totalSeats);
 			bookingRepository.save(booking);
-
+			bookingRepository.updateBookingAuditInfo(journeyId, totalSeats);
+			
 			return "Booking Successful!";
 		} else {
 			return "No seats available! Please try again later.";
