@@ -3,9 +3,11 @@ package dal.cloud.tourism.TicketBooking.repository;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import dal.cloud.tourism.TicketBooking.model.Booking;
 import dal.cloud.tourism.TicketBooking.model.BookingAudit;
@@ -30,10 +32,11 @@ public interface BookingRepository extends JpaRepository<Booking, Integer> {
 			nativeQuery = true)
 	public int getBookingAuditInfo(int journeyId);
 	
-	@Query(value = "UPDATE booking_audit set seats_available = "
-			+ "((select seats_available from booking_audit where journey_id = :journeyId)-1) "
-			+ "where journey_id = :journeyId", 
+	@Transactional
+	@Modifying
+	@Query(value = "UPDATE booking_audit b set b.seats_available = b.seats_available - :totalSeats "
+			+ "where journey_Id = :journeyId", 
 			nativeQuery = true)
-	public boolean updateBookingAuditInfo(int journeyId);
+	public void updateBookingAuditInfo(int journeyId, int totalSeats);
 	
 }
