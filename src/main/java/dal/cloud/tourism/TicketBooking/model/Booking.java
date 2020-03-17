@@ -25,7 +25,7 @@ public class Booking {
 	public String transactionMode;
 
 	@Column
-	public int amount;
+	public double amount;
 	
 	@Column
 	public String timestamp;
@@ -65,7 +65,7 @@ public class Booking {
 		this.transactionMode = transactionMode;
 	}
 
-	public int getAmount() {
+	public double getAmount() {
 		return amount;
 	}
 
@@ -87,6 +87,10 @@ public class Booking {
 
 	public void setTotalSeats(int totalSeats) {
 		this.totalSeats = totalSeats;
+	}
+
+	public void setAmount(double amount) {
+		this.amount = amount;
 	}
 	
 }
