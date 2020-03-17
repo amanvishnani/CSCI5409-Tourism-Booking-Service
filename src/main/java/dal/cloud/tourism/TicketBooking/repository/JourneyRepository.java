@@ -26,26 +26,26 @@ public interface JourneyRepository extends JpaRepository<Journey, Integer> {
 			+ "where j.company_id = :companyId", nativeQuery = true)
 	public List<Journey> getJourneyByCompanyId(int companyId);
 
-	@Query(value = "SELECT DATE_ADD(j.date, INTERVAL 1 DAY), j.duration, j.amount, b.type, b.capacity, c.name, c.contact FROM route r "
+	@Query(value = "SELECT DATE_ADD(j.date, INTERVAL 1 DAY), j.duration, j.amount, b.type, b.capacity, c.name, c.contact, j.journey_Id FROM route r "
 			+ "JOIN journey j on r.route_id = j.route_id "
 			+ "JOIN bus b on j.bus_no = b.bus_no "
 			+ "JOIN company c on j.company_id = c.company_id "
 			+ "where r.source_id = :sourceId and r.destination_id = :destinationId", nativeQuery = true)
 	public List<Object> getJourneyBySourceDestination(int sourceId, int destinationId);
 	
-	@Query(value = "SELECT DATE_ADD(j.date, INTERVAL 1 DAY), j.duration, j.amount, b.type, b.capacity, c.name, c.contact FROM route r "
+	@Query(value = "SELECT DATE_ADD(j.date, INTERVAL 1 DAY), j.duration, j.amount, b.type, b.capacity, c.name, c.contact, j.journey_Id FROM route r "
 			+ "JOIN journey j on r.route_id = j.route_id "
 			+ "JOIN bus b on j.bus_no = b.bus_no "
 			+ "JOIN company c on j.company_id = c.company_id "
-			+ "where r.source_id = :sourceId and r.destination_id = :destinationId and j.date = :date", nativeQuery = true)
-	public List<Object> getJourneyBySourceDestinationDate(int sourceId, int destinationId, String date);
+			+ "where r.source_id = :sourceId and r.destination_id = :destinationId and j.date = :jdate", nativeQuery = true)
+	public List<Object> getJourneyBySourceDestinationDate(int sourceId, int destinationId, String jdate);
 	
-	@Query(value = "SELECT DATE_ADD(j.date, INTERVAL 1 DAY), j.duration, j.amount, b.type, b.capacity, c.name, c.contact FROM route r "
+	@Query(value = "SELECT DATE_ADD(j.date, INTERVAL 1 DAY), j.duration, j.amount, b.type, b.capacity, c.name, c.contact, j.journey_Id FROM route r "
 			+ "JOIN journey j on r.route_id = j.route_id "
 			+ "JOIN bus b on j.bus_no = b.bus_no "
 			+ "JOIN company c on j.company_id = c.company_id "
 			+ "where r.source_id = :sourceId and r.destination_id = :destinationId "
-			+ "and j.date = :date and b.type = :type", nativeQuery = true)
-	public List<Object> getJourneyBySourceDestinationDateType(int sourceId, int destinationId, String date, String type);
+			+ "and j.date = :jdate and b.type = :btype", nativeQuery = true)
+	public List<Object> getJourneyBySourceDestinationDateType(int sourceId, int destinationId, String jdate, String btype);
 
 }
