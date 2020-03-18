@@ -24,9 +24,9 @@ http://localhost:8081/booking/bookingByUserId?userId=1
 http://localhost:8081/booking/bookingInfoByUserId?userId=1
 
 //Confirmation request for a valid booking with sufficient seats
-http://localhost:8081/booking/getBookingConfirmation?userId=1&journeyId=4&transactionMode=Credit%20Card&amount=250&totalSeats=2
+http://localhost:8081/booking/getBookingConfirmation?journeyId=4&totalSeats=2
 //Confirmation request for an invalid booking with insufficient seats
-http://localhost:8081/booking/getBookingConfirmation?userId=1&journeyId=5&transactionMode=Credit%20Card&amount=250&totalSeats=1
+http://localhost:8081/booking/getBookingConfirmation?journeyId=5&totalSeats=1
 
 //Fetch previous bookings
 http://localhost:8081/booking/bookingInfoByUserId?userId=1
@@ -35,3 +35,8 @@ http://localhost:8081/booking/bookingInfoByUserId?userId=1
 http://localhost:8081/booking/addBooking?userId=1&journeyId=4&transactionMode=Credit Card&amount=250&totalSeats=2
 //Booking request with insufficient seats
 http://localhost:8081/booking/addBooking?userId=1&journeyId=5&transactionMode=Credit%20Card&amount=250&totalSeats=1
+
+//Booking request with invalid card details
+http://localhost:8081/booking/addBooking?userId=1&journeyId=4&transactionMode=Credit Card&amount=250&totalSeats=2&cardNumber=1111-1234-1234-1234&holderName=abc&mm==11&yy==22&cvv=352
+//Booking request with valid card details
+http://localhost:8081/booking/addBooking?userId=1&journeyId=5&transactionMode=Credit Card&amount=250&totalSeats=1&cardNumber=1111-1111-1111-1111&holderName=abc&mm==11&yy==22&cvv=352

@@ -51,7 +51,9 @@ public class BookingController {
 
 	@RequestMapping("/getBookingConfirmation")
 	public String getBookingConfirmation(@RequestParam("journeyId") int journeyId, @RequestParam("totalSeats") int totalSeats) {
-
+		if(journeyId==-1) {
+			return "Error";
+		}
 		int seatsLeft = bookingRepository.getBookingAuditInfo(journeyId);			
 		return seatsLeft+"";
 	}
@@ -59,8 +61,19 @@ public class BookingController {
 	@RequestMapping("/addBooking")
 	public String addBookingInformation(@RequestParam("userId") int userId, @RequestParam("journeyId") int journeyId,
 			@RequestParam("transactionMode") String transactionMode, @RequestParam("amount") double amount,
-			@RequestParam("totalSeats") int totalSeats) {
+			@RequestParam("totalSeats") int totalSeats, @RequestParam("cardNumber") String cardNumber, 
+			@RequestParam("holderName") String holderName, @RequestParam("mm") String mm, @RequestParam("yy") String yy, 
+			@RequestParam("cvv") String cvv) {
 
+		if(!cardNumber.equals("1111-1111-1111-1111") 
+				|| holderName.length() == 0 
+				|| mm.length() < 2 || yy.length() < 2 || cvv.length() < 3  
+				|| Integer.parseInt(mm) < 0 || Integer.parseInt(mm) > 12 
+				|| (Integer.parseInt(mm) < 5 && Integer.parseInt(yy)<=20)
+				|| Integer.parseInt(yy) < 0 || Integer.parseInt(yy) > 25) {
+			return "Invalid Card Details. Please try again!";
+		}
+		
 		int seatsLeft = bookingRepository.getBookingAuditInfo(journeyId);
 
 		if (seatsLeft - totalSeats >= 0) {
