@@ -2,6 +2,7 @@ package dal.cloud.tourism.TicketBooking.controllers;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -65,12 +66,15 @@ public class BookingController {
 			@RequestParam("holderName") String holderName, @RequestParam("mm") String mm, @RequestParam("yy") String yy, 
 			@RequestParam("cvv") String cvv) {
 
+		int month = Calendar.getInstance().get(Calendar.MONTH)+1;
+		int year = Calendar.getInstance().get(Calendar.YEAR);
+		
 		if(!cardNumber.equals("1111-1111-1111-1111") 
 				|| holderName.length() == 0 
 				|| mm.length() < 2 || yy.length() < 2 || cvv.length() < 3  
 				|| Integer.parseInt(mm) < 0 || Integer.parseInt(mm) > 12 
-				|| (Integer.parseInt(mm) < 5 && Integer.parseInt(yy)<=20)
-				|| Integer.parseInt(yy) < 0 || Integer.parseInt(yy) > 25) {
+				|| (Integer.parseInt(mm) < month+1 && Integer.parseInt(yy)<=year)
+				|| Integer.parseInt(yy) < year || Integer.parseInt(yy) > year+5) {
 			return "Invalid Card Details. Please try again!";
 		}
 		
