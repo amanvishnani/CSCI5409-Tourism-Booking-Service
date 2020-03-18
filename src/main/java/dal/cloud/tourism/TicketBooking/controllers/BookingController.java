@@ -50,28 +50,10 @@ public class BookingController {
 	}
 
 	@RequestMapping("/getBookingConfirmation")
-	public Booking getBookingConfirmation(@RequestParam("userId") int userId, @RequestParam("journeyId") int journeyId,
-			@RequestParam("transactionMode") String transactionMode, @RequestParam("amount") int amount,
-			@RequestParam("totalSeats") int totalSeats) {
+	public String getBookingConfirmation(@RequestParam("journeyId") int journeyId, @RequestParam("totalSeats") int totalSeats) {
 
-		int seatsLeft = bookingRepository.getBookingAuditInfo(journeyId);
-		Booking booking = new Booking();
-
-		if (seatsLeft - totalSeats >= 0) {
-
-			Date date = new Date();
-			long time = date.getTime();
-			Timestamp timestamp = new Timestamp(time);
-
-			booking.setBookingId(0);
-			booking.setUserId(userId);
-			booking.setJourneyId(journeyId);
-			booking.setTransactionMode(transactionMode);
-			booking.setAmount(amount*totalSeats);
-			booking.setTimestamp(timestamp + "");
-			booking.setTotalSeats(totalSeats);
-		}			
-		return booking;
+		int seatsLeft = bookingRepository.getBookingAuditInfo(journeyId);			
+		return seatsLeft+"";
 	}
 		
 	@RequestMapping("/addBooking")
