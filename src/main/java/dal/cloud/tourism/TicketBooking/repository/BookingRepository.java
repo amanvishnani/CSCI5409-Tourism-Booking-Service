@@ -30,14 +30,15 @@ public interface BookingRepository extends JpaRepository<Booking, Integer> {
 	@Query(value = "SELECT b.booking_Id, b.transaction_mode, b.amount, b. timestamp, b.total_seats, "
 			+ "j.date, j.duration, "
 			+ "bu.type, "
-			+ "c.name, c.contact "
-			+ " FROM booking b "
+			+ "c.name as company, c.contact as contact, "
+			+ "ci.name AS source, ci2.name AS destination "
+			+ "FROM booking b "
 			+ "JOIN journey j on b.journey_Id = j.journey_Id "
 			+ "JOIN bus bu on j.bus_no = bu.bus_no "
 			+ "JOIN company c on j.company_id = c.company_id "
 			+ "JOIN route r on j.route_id = r.route_id "
 			+ "JOIN city ci on r.source_id = ci.city_Id " 
-			+"  JOIN city ci2 on r.destination_id = ci2.city_Id "
+			+ "JOIN city ci2 on r.destination_id = ci2.city_Id "
 			+ "where b.user_id = :userId",
 			nativeQuery = true)
 	public List<Object> getBookingInfoByUserId(int userId);

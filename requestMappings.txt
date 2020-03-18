@@ -21,6 +21,7 @@ http://localhost:8081/journey/journeyByCompanyId?companyId=1
 http://localhost:8081/booking/all
 http://localhost:8081/booking/bookingById?bookingId=1
 http://localhost:8081/booking/bookingByUserId?userId=1
+http://localhost:8081/booking/bookingInfoByUserId?userId=1
 
 //Confirmation request for a valid booking with sufficient seats
 http://localhost:8081/booking/getBookingConfirmation?userId=1&journeyId=4&transactionMode=Credit%20Card&amount=250&totalSeats=2
