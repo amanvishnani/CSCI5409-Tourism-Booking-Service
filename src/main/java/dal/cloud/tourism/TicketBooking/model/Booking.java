@@ -16,7 +16,7 @@ public class Booking {
 	public int bookingId;
 
 	@Column
-	public int userId;
+	public String userId;
 
 	@Column
 	public int journeyId;
@@ -41,11 +41,11 @@ public class Booking {
 		this.bookingId = bookingId;
 	}
 
-	public int getUserId() {
+	public String getUserId() {
 		return userId;
 	}
 
-	public void setUserId(int userId) {
+	public void setUserId(String userId) {
 		this.userId = userId;
 	}
 

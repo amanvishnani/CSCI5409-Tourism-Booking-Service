@@ -8,6 +8,8 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -38,6 +40,11 @@ public class BookingController {
 
 	@RequestMapping("/bookingByUserId")
 	public List<Booking> getBookingByUserId(@RequestParam("userId") int userId) {
+		
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		String currentPrincipalName = authentication.getName();
+		System.out.println(currentPrincipalName);
+		
 		List<Booking> list = new ArrayList<Booking>();
 		list = bookingRepository.getBookingsByUserId(userId);
 		return list;
@@ -60,7 +67,7 @@ public class BookingController {
 	}
 		
 	@RequestMapping("/addBooking")
-	public String addBookingInformation(@RequestParam("userId") int userId, @RequestParam("journeyId") int journeyId,
+	public String addBookingInformation(@RequestParam("userId") String userId, @RequestParam("journeyId") int journeyId,
 			@RequestParam("transactionMode") String transactionMode, @RequestParam("amount") double amount,
 			@RequestParam("totalSeats") int totalSeats, @RequestParam("cardNumber") String cardNumber, 
 			@RequestParam("holderName") String holderName, @RequestParam("mm") String mm, @RequestParam("yy") String yy, 
