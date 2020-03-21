@@ -17,9 +17,7 @@ public class BasicConfiguration extends WebSecurityConfigurerAdapter {
         .httpBasic(AbstractHttpConfigurer::disable);
        http
         .authorizeRequests()
-        .antMatchers("/booking/**").permitAll()
-        .antMatchers("/journey/**").permitAll()
-        .antMatchers("/routes/**").permitAll()
+        .antMatchers("/**").permitAll()
         .anyRequest().authenticated()
         .and()
                .addFilter(new JWTValidationFilter(authenticationManager()));
