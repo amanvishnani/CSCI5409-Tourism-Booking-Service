@@ -22,5 +22,15 @@ public interface RouteRepository extends JpaRepository<Route, Integer> {
 	@Query(value = "SELECT * FROM route r "
 			+ "where r.route_id = :routeId", nativeQuery = true)
 	public Route getRouteById(int routeId);
+	
+	@Query(value = "SELECT c.name FROM city c "
+			+ "JOIN route r ON r.source_Id = c.city_Id "
+			+ "where r.route_id = :routeId", nativeQuery = true)
+	public String getSourceNameByRouteById(int routeId);
+
+	@Query(value = "SELECT c.name FROM city c "
+			+ "JOIN route r ON r.destination_Id = c.city_Id "
+			+ "where r.route_id = :routeId", nativeQuery = true)
+	public String getDestinationNameByRouteById(int routeId);
 
 }

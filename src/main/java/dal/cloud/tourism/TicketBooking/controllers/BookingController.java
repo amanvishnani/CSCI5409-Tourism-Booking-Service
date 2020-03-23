@@ -1,10 +1,24 @@
 package dal.cloud.tourism.TicketBooking.controllers;
 
+import java.io.ByteArrayOutputStream;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Properties;
+
+import javax.activation.DataHandler;
+import javax.activation.DataSource;
+import javax.mail.Message;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
+import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
+import javax.mail.util.ByteArrayDataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Modifying;
@@ -15,8 +29,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.lowagie.text.Chunk;
+import com.lowagie.text.Document;
+import com.lowagie.text.Paragraph;
+import com.lowagie.text.pdf.PdfWriter;
+import com.lowagie.text.pdf.codec.Base64.OutputStream;
+
 import dal.cloud.tourism.TicketBooking.model.Booking;
+import dal.cloud.tourism.TicketBooking.model.Journey;
 import dal.cloud.tourism.TicketBooking.repository.BookingRepository;
+import dal.cloud.tourism.TicketBooking.repository.JourneyRepository;
+import dal.cloud.tourism.TicketBooking.repository.RouteRepository;
+import dal.cloud.tourism.utilities.GmailService;
 
 @RestController
 @RequestMapping("booking")
@@ -24,6 +48,10 @@ public class BookingController {
 
 	@Autowired
 	BookingRepository bookingRepository;
+	@Autowired
+	JourneyRepository journeyRepository;
+	@Autowired
+	RouteRepository routeRepository;
 
 	@RequestMapping("/all")
 	public List<Booking> getBookings() {
@@ -74,14 +102,14 @@ public class BookingController {
 			@RequestParam("cvv") String cvv) {
 
 		int month = Calendar.getInstance().get(Calendar.MONTH)+1;
-		int year = Calendar.getInstance().get(Calendar.YEAR);
 		
 		if(!cardNumber.equals("1111-1111-1111-1111") 
 				|| holderName.length() == 0 
 				|| mm.length() < 2 || yy.length() < 2 || cvv.length() < 3  
 				|| Integer.parseInt(mm) < 0 || Integer.parseInt(mm) > 12 
-				|| (Integer.parseInt(mm) < month+1 && Integer.parseInt(yy)<=year)
-				|| Integer.parseInt(yy) < year || Integer.parseInt(yy) > year+5) {
+				|| (Integer.parseInt(mm) < month+1 && Integer.parseInt(yy)<=20)
+				|| Integer.parseInt(yy) < 20 || Integer.parseInt(yy) > 25) {
+			
 			return "Invalid Card Details. Please try again!";
 		}
 		
@@ -103,6 +131,13 @@ public class BookingController {
 			booking.setTotalSeats(totalSeats);
 			bookingRepository.save(booking);
 			bookingRepository.updateBookingAuditInfo(journeyId, totalSeats);
+			
+			Journey journey = journeyRepository.getJourneyById(journeyId);
+			String source = routeRepository.getSourceNameByRouteById(journey.route_id);
+			String destination = routeRepository.getDestinationNameByRouteById(journey.route_id);
+			
+			GmailService gmail = new GmailService(userId, (amount*1.15), timestamp, totalSeats, cardNumber, journey, source, destination);
+			gmail.sendMail();
 			
 			return "Booking Successful!";
 		} else {
