@@ -40,7 +40,7 @@ import dal.cloud.tourism.TicketBooking.model.Journey;
 import dal.cloud.tourism.TicketBooking.repository.BookingRepository;
 import dal.cloud.tourism.TicketBooking.repository.JourneyRepository;
 import dal.cloud.tourism.TicketBooking.repository.RouteRepository;
-import dal.cloud.tourism.utilities.GmailService;
+import dal.cloud.tourism.TicketBooking.utilities.GmailService;
 
 @RestController
 @RequestMapping("booking")
