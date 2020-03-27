@@ -37,6 +37,13 @@ public interface JourneyRepository extends JpaRepository<Journey, Integer> {
 			+ "JOIN journey j on r.route_id = j.route_id "
 			+ "JOIN bus b on j.bus_no = b.bus_no "
 			+ "JOIN company c on j.company_id = c.company_id "
+			+ "where r.source_id = :sourceId and r.destination_id = :destinationId", nativeQuery = true)
+	public List<Object[]> getJourneyBySourceDestinationMap(int sourceId, int destinationId);
+	
+	@Query(value = "SELECT DATE_ADD(j.date, INTERVAL 1 DAY), j.duration, j.amount, b.type, b.capacity, c.name, c.contact, j.journey_Id FROM route r "
+			+ "JOIN journey j on r.route_id = j.route_id "
+			+ "JOIN bus b on j.bus_no = b.bus_no "
+			+ "JOIN company c on j.company_id = c.company_id "
 			+ "where r.source_id = :sourceId and r.destination_id = :destinationId and j.date = :jdate", nativeQuery = true)
 	public List<Object> getJourneyBySourceDestinationDate(int sourceId, int destinationId, String jdate);
 	

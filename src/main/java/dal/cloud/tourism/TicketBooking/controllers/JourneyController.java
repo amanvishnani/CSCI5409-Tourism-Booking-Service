@@ -1,7 +1,9 @@
 package dal.cloud.tourism.TicketBooking.controllers;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -51,6 +53,56 @@ public class JourneyController {
 		List<Object> list = new ArrayList<Object>();
 		list = journeyRepository.getJourneyBySourceDestination(sourceId, destinationId);
 		return list;
+	}
+	
+	@RequestMapping("/journeyBySourceDestinationMap")
+	public List<Map<String,String>> getJourneyBySourceDestinationMap(@RequestParam("sourceId") int sourceId, @RequestParam("destinationId") int destinationId){
+		List<Object[]> list = new ArrayList<Object[]>();
+		list = journeyRepository.getJourneyBySourceDestinationMap(sourceId, destinationId);
+		
+		Map<String,String> map;
+		List<Map<String,String>> lst = new ArrayList<Map<String,String>>();
+	
+		for(int i=0;i<list.size();i++) {
+			map = new HashMap<String,String>();
+			Object[] ob = list.get(i);
+			for(int j = 0;j<ob.length;j++){
+				
+				String val = ob[j]+"";
+				
+				switch(j){
+				
+				case 0: map.put("date",val);
+				break;
+				
+				case 1: map.put("duration",val);
+				break;
+				
+				case 2: map.put("amount",val);
+				break;
+				
+				case 3: map.put("seatType",val);
+				break;
+				
+				case 4: map.put("busCapacity",val);
+				break;
+				
+				case 5: map.put("companyName",val);
+				break;
+				
+				case 6: map.put("contact",val);
+				break;
+				
+				case 7: map.put("journeyId",val);
+				break;
+				
+				}
+			}
+			
+			lst.add(map);
+		}
+		
+		return lst;
 	}
 	
 	@RequestMapping("/journeyBySourceDestinationDate")
