@@ -52,7 +52,7 @@ public class BookingController {
 	JourneyRepository journeyRepository;
 	@Autowired
 	RouteRepository routeRepository;
-
+	
 	@RequestMapping("/all")
 	public List<Booking> getBookings() {
 		List<Booking> list = new ArrayList<Booking>();
@@ -67,11 +67,10 @@ public class BookingController {
 	}
 
 	@RequestMapping("/bookingByUserId")
-	public List<Booking> getBookingByUserId(@RequestParam("userId") int userId) {
+	public List<Booking> getBookingByUserId() {
 		
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		String currentPrincipalName = authentication.getName();
-		System.out.println(currentPrincipalName);
+		String userId = authentication.getName();
 		
 		List<Booking> list = new ArrayList<Booking>();
 		list = bookingRepository.getBookingsByUserId(userId);
@@ -79,7 +78,11 @@ public class BookingController {
 	}
 	
 	@RequestMapping("/bookingInfoByUserId")
-	public List<Object> getBookingInfoByUserId(@RequestParam("userId") int userId) {
+	public List<Object> getBookingInfoByUserId() {
+
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		String userId = authentication.getName();
+		
 		List<Object> list = new ArrayList<Object>();
 		list = bookingRepository.getBookingInfoByUserId(userId);
 		return list;
@@ -95,12 +98,15 @@ public class BookingController {
 	}
 		
 	@RequestMapping("/addBooking")
-	public String addBookingInformation(@RequestParam("userId") String userId, @RequestParam("journeyId") int journeyId,
+	public String addBookingInformation(@RequestParam("journeyId") int journeyId,
 			@RequestParam("transactionMode") String transactionMode, @RequestParam("amount") double amount,
 			@RequestParam("totalSeats") int totalSeats, @RequestParam("cardNumber") String cardNumber, 
 			@RequestParam("holderName") String holderName, @RequestParam("mm") String mm, @RequestParam("yy") String yy, 
 			@RequestParam("cvv") String cvv) {
 
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		String userId = authentication.getName();
+		
 		int month = Calendar.getInstance().get(Calendar.MONTH)+1;
 		
 		if(!cardNumber.equals("1111-1111-1111-1111") 

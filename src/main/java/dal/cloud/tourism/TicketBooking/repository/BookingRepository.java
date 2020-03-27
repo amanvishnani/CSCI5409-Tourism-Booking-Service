@@ -25,7 +25,7 @@ public interface BookingRepository extends JpaRepository<Booking, Integer> {
 	@Query(value = "SELECT * FROM booking b "
 			+ "where b.user_id = :userId",
 			nativeQuery = true)
-	public List<Booking> getBookingsByUserId(int userId);
+	public List<Booking> getBookingsByUserId(String userId);
 	
 	@Query(value = "SELECT b.booking_Id, b.transaction_mode, b.amount, b. timestamp, b.total_seats, "
 			+ "j.date, j.duration, "
@@ -41,7 +41,7 @@ public interface BookingRepository extends JpaRepository<Booking, Integer> {
 			+ "JOIN city ci2 on r.destination_id = ci2.city_Id "
 			+ "where b.user_id = :userId",
 			nativeQuery = true)
-	public List<Object> getBookingInfoByUserId(int userId);
+	public List<Object> getBookingInfoByUserId(String userId);
 
 	@Query(value = "SELECT seats_available from booking_audit "
 			+ "where journey_id = :journeyId", 
