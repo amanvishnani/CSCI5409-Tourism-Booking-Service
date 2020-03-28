@@ -1,25 +1,3 @@
-http://localhost:8081/provinces/all
-
-http://localhost:8081/cities/all
-http://localhost:8081/cities/cityById?cityId=1
-http://localhost:8081/cities/citiesByProvince?province=Nova Scotia
-
-http://localhost:8081/touristLocations/all
-http://localhost:8081/touristLocations/locationById?locationId=3
-http://localhost:8081/touristLocations/locationsByProvince?province=Nova Scotia
-http://localhost:8081/touristLocations/locationsByCityId?cityId=1
-
-http://localhost:8081/routes/all
-http://localhost:8081/routes/routeById?routeId=1
-http://localhost:8081/routes/routeBySourceDestination?sourceId=1&destinationId=2
-
-http://localhost:8081/journey/all
-http://localhost:8081/journey/journeyById?journeyId=4
-http://localhost:8081/journey/journeyByRouteId?routeId=1
-http://localhost:8081/journey/journeyByCompanyId?companyId=1
-http://localhost:8081/journey/journeyBySourceDestination?sourceId=1&destinationId=2
-http://localhost:8081/journey/journeyBySourceDestinationMap?sourceId=1&destinationId=2
-
 http://localhost:8081/booking/all
 http://localhost:8081/booking/bookingById?bookingId=1
 http://localhost:8081/booking/bookingByUserId
